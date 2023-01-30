@@ -1,39 +1,47 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
+import NestedListItem from './NestedListItem.vue';
+import nestedItems from '../data/nestedItems.json'
+import { groceryItem } from '../types';
 
-interface groceryItem {
-  name: string
-  id: string
-  parent_id?: string  // optional
-  order: number
-}
+console.log(nestedItems);
 
 export default defineComponent({
-  data: () => ({
-    flatItems: [],
-    flatItemsJSON: '[]',
-    flatHasError: false
-  }),
-  methods: {
-    setFlatItemsJSON() {
-      this.flatItemsJSON = JSON.stringify(this.flatItems, null, 2);
+    data: () => ({
+        flatItems: [],
+        flatItemsJSON: "[]",
+        flatHasError: false,
+        selectedItemId: '',
+    }),
+    computed: {
+      nested(): Array<groceryItem> {
+      //  nested() {
+        return nestedItems; // TODO calculate
+      }
     },
-    setFlatItemsArray() {
-      try {
-        this.flatItems = JSON.parse(this.flatItemsJSON);
-        this.flatHasError = false;
+    methods: {
+      select(payload: Object) {
+        this.selectedItemId = payload.id;
+      },
+      setFlatItemsJSON() {
+          this.flatItemsJSON = JSON.stringify(this.flatItems, null, 2);
+      },
+      setFlatItemsArray() {
+          try {
+              this.flatItems = JSON.parse(this.flatItemsJSON);
+              this.flatHasError = false;
+          }
+          catch (err) {
+              this.flatHasError = true;
+          }
       }
-      catch (err) {
-        this.flatHasError = true;
-      }
-    }
-
-  },
-  watch: {
-    flatItemsJSON() {
-      this.setFlatItemsArray();
-    }
-  }
+    },
+    watch: {
+        flatItemsJSON() {
+            this.setFlatItemsArray();
+        }
+    },
+    components: { NestedListItem }
 })
 </script>
 
@@ -52,7 +60,15 @@ export default defineComponent({
   </div>
   <div class="left">
     <p>Configure Items</p>
-    <p>There are {{ flatItems.length }} items.</p>
+    <NestedListItem
+      name=""
+      id=""
+      :is-open="true"
+      :children="nested"
+      :selected-item-id="selectedItemId"
+      :parent="null"
+      @select="(v: Object) => select(v)"
+    />
   </div>  
   <div class="right">Select Items</div>
   <div class="footer">Today's Shopping List</div>
@@ -69,7 +85,6 @@ export default defineComponent({
 textarea.has-error {
   outline: 1px solid red;
 }
-
 
 /* grid */
 .header { grid-area: header; }

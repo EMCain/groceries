@@ -1,0 +1,28 @@
+[
+{
+    "name": "Dairy",
+    "id": "DA01",
+    "parent_id": null,
+    "order": 1, 
+    "open": true,
+    "children": [
+        {
+            "name": "Milk",
+            "id": "MI01",
+            "parent_id": "DA01",
+            "order": 1,
+            "open": true,
+            "children": []
+        },
+        {
+            "name": "Cheese",
+            "id": "CH01",
+            "parent_id": "DA01",
+            "order": 2,
+            "open": true,
+            "children": []
+        }
+
+    ]
+}
+]

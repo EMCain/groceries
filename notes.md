@@ -11,3 +11,7 @@ typescript in components:
 https://vuejs.org/guide/typescript/options-api.html#typing-component-props
 
 https://stackoverflow.com/questions/64831745/props-typing-in-vue-js-3-with-typescript
+
+Icons:
+
+https://icon-sets.iconify.design/fluent/triangle-right-12-filled/
